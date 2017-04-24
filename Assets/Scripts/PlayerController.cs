@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
     int frameCount = 0;
     int shadowDelay = 120;
 
+    public bool isTouchingSideOfPlatform = false;
+
     public ShadowRecording shadow;
 
     public float shadowJumpForce;
@@ -60,10 +62,10 @@ public class PlayerController : MonoBehaviour {
             transform.position = shadow.transform.position;
 
             // add artificial jump force if shadow is jumping
-            if (shadow.isJumping) {
+            if (!shadow.grounded && !grounded) {
                 myRb.AddForce(new Vector2(shadow.currentVelocity.x, shadowJumpForce));
             }
-            myRb.AddForce(shadow.currentVelocity);
+            //myRb.AddForce(shadow.currentVelocity);
         }
 
         if (transform.position.y < -25f) {
@@ -85,7 +87,14 @@ public class PlayerController : MonoBehaviour {
         myAnim.SetBool("isGrounded", grounded);
         myAnim.SetFloat("verticalSpeed", myRb.velocity.y);
 
-        float move = Input.GetAxis("Horizontal");
+        float move = 0;
+
+        // when the player hits the side of the platform, user input should stop, so that the player
+        // doesn't keep sticking to the edge of the platform
+        if (!isTouchingSideOfPlatform)
+        {
+            move = Input.GetAxis("Horizontal");
+        }
 
         myRb.velocity = new Vector2(move * speed, myRb.velocity.y);
         //print(myRb.velocity.x);
@@ -98,8 +107,6 @@ public class PlayerController : MonoBehaviour {
         {
             Flip();
         }
-
-        //print("fixedupdate");
     }
 
     void Flip()  {

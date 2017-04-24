@@ -11,13 +11,13 @@ public class ShadowRecording : MonoBehaviour
     public Vector2 currentVelocity;
     Vector2 previousPosition;
 
-    bool grounded;
+    public bool grounded;
     float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
     public Transform groundCheck;
     Animator myAnim;
     bool facingRight = true;
-    public bool isJumping = false;
+    //public bool isJumping = false;
     int shadowDelay = 80;
     float nextTimeToSearch = 0;
 
@@ -66,12 +66,12 @@ public class ShadowRecording : MonoBehaviour
             currentVelocity = ((Vector2) transform.position - previousPosition) / Time.deltaTime;
             previousPosition = transform.position;
 
-            if (currentVelocity.y > 0) {
-                isJumping = true;
-            }
-            else {
-                isJumping = false;
-            }
+//            if (currentVelocity.y > 0) {
+//                isJumping = true;
+//            }
+//            else {
+//                isJumping = false;
+//            }
         }
         else {
             myAnim.speed = 0;
